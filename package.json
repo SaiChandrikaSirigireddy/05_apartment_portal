@@ -1,0 +1,18 @@
+{
+  "name": "apartment-management-system",
+  "version": "1.0.0",
+  "description": "Apartment & Housing Management Web Application - Web Technology Lab (GPCET)",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": ["apartment", "housing", "mysql", "express", "nodejs", "crud"],
+  "author": "S. Sai Chandrika (25ATA05L40)",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "mysql2": "^3.12.0"
+  }
+}

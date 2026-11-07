@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Apartments - Apartment Management (S. Sai Chandrika)</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="top-announcement">
+        <div class="container top-bar-content">
+            <span><i class="fa-solid fa-graduation-cap"></i> <strong>GPCET Web Tech Lab</strong> &bull; Developer: <strong>S. Sai Chandrika (25ATA05L40)</strong></span>
+            <span class="db-badge" id="dbStatusBadge"><i class="fa-solid fa-circle-notch fa-spin"></i> Checking DB...</span>
+        </div>
+    </div>
+
+    <header class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="brand-logo">
+                <div class="logo-icon"><i class="fa-solid fa-city"></i></div>
+                <div>
+                    <h1 class="logo-title">Apt<span>Sphere</span></h1>
+                    <p class="logo-sub">Apartment & Housing Management</p>
+                </div>
+            </a>
+
+            <nav class="nav-links">
+                <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+                <a href="add-apartment.html"><i class="fa-solid fa-building-circle-check"></i> Add Apartment</a>
+                <a href="update-apartment.html"><i class="fa-solid fa-pen-to-square"></i> Update</a>
+                <a href="search-apartment.html" class="active"><i class="fa-solid fa-magnifying-glass"></i> Search</a>
+                <a href="delete-apartment.html"><i class="fa-solid fa-trash-can"></i> Remove / Delete</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container main-content page-container" style="max-width: 960px;">
+        <div class="form-card">
+            <div class="form-card-header">
+                <div>
+                    <h2><i class="fa-solid fa-magnifying-glass"></i> Search Apartment Inventory</h2>
+                    <p>Search by Flat No, Apartment Name, Location, or ID from MySQL database</p>
+                </div>
+                <div class="badge-roll">Roll No: 25ATA05L40</div>
+            </div>
+
+            <div class="form-body">
+                <div class="form-group">
+                    <label for="aptSearchInput"><i class="fa-solid fa-search"></i> Enter Keyword, Flat No, or Location</label>
+                    <div style="display:flex; gap:10px;">
+                        <input type="text" id="aptSearchInput" placeholder="e.g. 101 or Flat 302 or Green Valley or Kurnool..." onkeyup="executeAptSearch()" style="flex:1;">
+                        <button type="button" class="btn-primary" onclick="executeAptSearch()">
+                            <i class="fa-solid fa-search"></i> Search
+                        </button>
+                    </div>
+                </div>
+
+                <div id="aptSearchResultsSection" style="margin-top: 24px;">
+                    <div class="table-card">
+                        <div class="table-responsive">
+                            <table class="styled-table">
+                                <thead>
+                                    <tr>
+                                        <th>Apartment ID</th>
+                                        <th>Flat No</th>
+                                        <th>Apartment Name</th>
+                                        <th>BHK</th>
+                                        <th>Rent</th>
+                                        <th>Location</th>
+                                        <th>Status</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="aptSearchResultsBody">
+                                    <tr>
+                                        <td colspan="8" class="empty-td">
+                                            <i class="fa-solid fa-keyboard"></i> Type a flat number, building name, or city above.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="toast" class="toast">
+        <i id="toastIcon" class="fa-solid fa-circle-check"></i>
+        <span id="toastMsg">Operation successful!</span>
+    </div>
+
+    <footer class="footer">
+        <div class="container footer-content">
+            <p><strong>Apartment Management Web Application</strong> &bull; Developer: <strong>S. Sai Chandrika</strong> (Roll No: <strong>25ATA05L40</strong>)</p>
+            <p class="footer-sub">Web Technology Lab &bull; Node.js, Express, MySQL Workbench</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        async function executeAptSearch() {
+            const query = document.getElementById('aptSearchInput').value.trim();
+            const tbody = document.getElementById('aptSearchResultsBody');
+
+            if (!query) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="empty-td">
+                            <i class="fa-solid fa-keyboard"></i> Type a flat number, building name, or city above.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            try {
+                const res = await fetch(`/api/apartments?q=${encodeURIComponent(query)}`);
+                const data = await res.json();
+
+                if (data.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="8" class="empty-td">
+                                <i class="fa-solid fa-building-circle-xmark"></i> No apartments found matching "${escapeHtml(query)}".
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                tbody.innerHTML = data.map(apt => {
+                    let statusClass = apt.status === 'Available' ? 'status-available' : (apt.status === 'Occupied' ? 'status-occupied' : 'status-maintenance');
+                    return `
+                        <tr>
+                            <td><span class="apt-id-cell">#${apt.apartment_id}</span></td>
+                            <td><strong style="color:var(--dark);">${escapeHtml(apt.flat_no)}</strong></td>
+                            <td>${escapeHtml(apt.apartment_name)}</td>
+                            <td><span class="bhk-tag">${escapeHtml(apt.bhk_type)}</span></td>
+                            <td><span class="price-tag">${formatRent(apt.rent_price)}</span></td>
+                            <td><small>${escapeHtml(apt.location)}</small></td>
+                            <td><span class="status-badge ${statusClass}">${escapeHtml(apt.status)}</span></td>
+                            <td class="text-center">
+                                <a href="update-apartment.html?id=${apt.apartment_id}" class="btn-sm-edit"><i class="fa-solid fa-pen"></i> Edit</a>
+                                <a href="delete-apartment.html?id=${apt.apartment_id}" class="btn-sm-delete"><i class="fa-solid fa-trash"></i> Delete</a>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (err) {
+                showToast('Search failed: ' + err.message, true);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="bgGradApartment" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#0f766e" />
+    </linearGradient>
+    <clipPath id="circleClipApartment">
+      <circle cx="100" cy="100" r="95" />
+    </clipPath>
+  </defs>
+
+  <!-- Background Circle with Emerald Theme -->
+  <circle cx="100" cy="100" r="98" fill="url(#bgGradApartment)" stroke="#34d399" stroke-width="4" />
+
+  <g clip-path="url(#circleClipApartment)">
+    <!-- Shoulders / Blazer -->
+    <path d="M35 210 C45 145, 70 135, 100 135 C130 135, 155 145, 165 210 Z" fill="#064e3b" />
+    <!-- Inner Top / Shirt -->
+    <polygon points="100,165 82,135 118,135" fill="#a7f3d0" />
+
+    <!-- Neck -->
+    <rect x="90" y="115" width="20" height="24" fill="#f59e0b" rx="4" />
+
+    <!-- Hair Back -->
+    <ellipse cx="100" cy="85" rx="52" ry="58" fill="#18181b" />
+
+    <!-- Face -->
+    <ellipse cx="100" cy="92" rx="36" ry="42" fill="#fed7aa" />
+
+    <!-- Hair Bangs / Front -->
+    <path d="M64 78 Q100 50 136 78 Q140 105 136 120 C132 100 120 72 100 72 C80 72 68 100 64 120 Z" fill="#18181b" />
+
+    <!-- Eyes -->
+    <circle cx="86" cy="92" r="4.5" fill="#1e293b" />
+    <circle cx="114" cy="92" r="4.5" fill="#1e293b" />
+    <circle cx="87.5" cy="90.5" r="1.5" fill="#ffffff" />
+    <circle cx="115.5" cy="90.5" r="1.5" fill="#ffffff" />
+
+    <!-- Eyebrows -->
+    <path d="M80 84 Q86 80 92 84" stroke="#18181b" stroke-width="2.5" fill="none" stroke-linecap="round" />
+    <path d="M108 84 Q114 80 120 84" stroke="#18181b" stroke-width="2.5" fill="none" stroke-linecap="round" />
+
+    <!-- Glasses Frame -->
+    <rect x="76" y="85" width="20" height="15" rx="4" fill="none" stroke="#10b981" stroke-width="2.5" />
+    <rect x="104" y="85" width="20" height="15" rx="4" fill="none" stroke="#10b981" stroke-width="2.5" />
+    <line x1="96" y1="92" x2="104" y2="92" stroke="#10b981" stroke-width="2" />
+
+    <!-- Nose -->
+    <path d="M100 95 L98 103 L102 103" stroke="#f97316" stroke-width="1.5" fill="none" stroke-linecap="round" />
+
+    <!-- Smile -->
+    <path d="M92 112 Q100 122 108 112" stroke="#dc2626" stroke-width="2.5" fill="none" stroke-linecap="round" />
+
+    <!-- Cheeks (Blush) -->
+    <ellipse cx="78" cy="104" rx="5" ry="3" fill="#fca5a5" opacity="0.6" />
+    <ellipse cx="122" cy="104" rx="5" ry="3" fill="#fca5a5" opacity="0.6" />
+
+    <!-- Roll No ID Badge Pin -->
+    <rect x="65" y="172" width="70" height="18" rx="4" fill="#047857" stroke="#6ee7b7" stroke-width="1.5" />
+    <text x="100" y="184" fill="#ffffff" font-size="8" font-weight="bold" font-family="sans-serif" text-anchor="middle">25ATA05L40</text>
+  </g>
+
+  <!-- Green Online Status Dot -->
+  <circle cx="150" cy="150" r="13" fill="#22c55e" stroke="#ffffff" stroke-width="3" />
+</svg>

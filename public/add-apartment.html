@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Apartment - Apartment Management (S. Sai Chandrika)</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="top-announcement">
+        <div class="container top-bar-content">
+            <span><i class="fa-solid fa-graduation-cap"></i> <strong>GPCET Web Tech Lab</strong> &bull; Developer: <strong>S. Sai Chandrika (25ATA05L40)</strong></span>
+            <span class="db-badge" id="dbStatusBadge"><i class="fa-solid fa-circle-notch fa-spin"></i> Checking DB...</span>
+        </div>
+    </div>
+
+    <header class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="brand-logo">
+                <div class="logo-icon"><i class="fa-solid fa-city"></i></div>
+                <div>
+                    <h1 class="logo-title">Apt<span>Sphere</span></h1>
+                    <p class="logo-sub">Apartment & Housing Management</p>
+                </div>
+            </a>
+
+            <nav class="nav-links">
+                <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+                <a href="add-apartment.html" class="active"><i class="fa-solid fa-building-circle-check"></i> Add Apartment</a>
+                <a href="update-apartment.html"><i class="fa-solid fa-pen-to-square"></i> Update</a>
+                <a href="search-apartment.html"><i class="fa-solid fa-magnifying-glass"></i> Search</a>
+                <a href="delete-apartment.html"><i class="fa-solid fa-trash-can"></i> Remove / Delete</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container main-content page-container">
+        <div class="form-card">
+            <div class="form-card-header">
+                <div>
+                    <h2><i class="fa-solid fa-building-circle-check"></i> Add New Apartment Listing</h2>
+                    <p>Insert a new unit directly into MySQL Workbench table <code>apartments</code></p>
+                </div>
+                <div class="badge-roll">Roll No: 25ATA05L40</div>
+            </div>
+
+            <form class="form-body" id="addAptForm" onsubmit="handleAddApartment(event)">
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label for="aptId"><i class="fa-solid fa-hashtag"></i> Apartment ID (Optional)</label>
+                        <input type="number" id="aptId" placeholder="Leave empty for auto-generated ID">
+                        <small class="field-hint">Auto-incremented primary key in MySQL database.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="flatNo"><i class="fa-solid fa-door-open"></i> Flat / Unit No <span style="color:var(--danger)">*</span></label>
+                        <input type="text" id="flatNo" required placeholder="e.g. Flat 304 - Block B">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="aptName"><i class="fa-solid fa-building"></i> Apartment / Community Name <span style="color:var(--danger)">*</span></label>
+                        <input type="text" id="aptName" required placeholder="e.g. Green Valley Residency">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bhkType"><i class="fa-solid fa-bed"></i> BHK Type <span style="color:var(--danger)">*</span></label>
+                        <select id="bhkType" required>
+                            <option value="1 BHK">1 BHK</option>
+                            <option value="2 BHK" selected>2 BHK</option>
+                            <option value="3 BHK">3 BHK</option>
+                            <option value="4 BHK Penthouse">4 BHK Penthouse</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rentPrice"><i class="fa-solid fa-indian-rupee-sign"></i> Monthly Rent (₹) <span style="color:var(--danger)">*</span></label>
+                        <input type="number" step="100" min="0" id="rentPrice" required placeholder="e.g. 22000">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status"><i class="fa-solid fa-circle-info"></i> Occupancy Status <span style="color:var(--danger)">*</span></label>
+                        <select id="status" required>
+                            <option value="Available" selected>Available</option>
+                            <option value="Occupied">Occupied</option>
+                            <option value="Maintenance">Maintenance</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="location"><i class="fa-solid fa-location-dot"></i> City / Area Location <span style="color:var(--danger)">*</span></label>
+                        <input type="text" id="location" required placeholder="e.g. Kurnool (Near GPCET Campus) / Hyderabad (Hitec City)">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <a href="index.html" class="btn-secondary"><i class="fa-solid fa-arrow-left"></i> Cancel</a>
+                    <button type="submit" class="btn-primary" id="saveAptBtn">
+                        <i class="fa-solid fa-floppy-disk"></i> Save Apartment to Database
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <div id="toast" class="toast">
+        <i id="toastIcon" class="fa-solid fa-circle-check"></i>
+        <span id="toastMsg">Operation successful!</span>
+    </div>
+
+    <footer class="footer">
+        <div class="container footer-content">
+            <p><strong>Apartment Management Web Application</strong> &bull; Developer: <strong>S. Sai Chandrika</strong> (Roll No: <strong>25ATA05L40</strong>)</p>
+            <p class="footer-sub">Web Technology Lab &bull; Node.js, Express, MySQL Workbench</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        async function handleAddApartment(e) {
+            e.preventDefault();
+            const btn = document.getElementById('saveAptBtn');
+            const orig = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+            btn.disabled = true;
+
+            const aptData = {
+                apartment_id: document.getElementById('aptId').value.trim() || undefined,
+                flat_no: document.getElementById('flatNo').value.trim(),
+                apartment_name: document.getElementById('aptName').value.trim(),
+                bhk_type: document.getElementById('bhkType').value,
+                rent_price: parseFloat(document.getElementById('rentPrice').value),
+                location: document.getElementById('location').value.trim(),
+                status: document.getElementById('status').value
+            };
+
+            try {
+                const res = await fetch('/api/apartments', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(aptData)
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Failed to add apartment');
+
+                showToast(`🎉 Apartment #${data.apartment_id} added successfully!`);
+                document.getElementById('addAptForm').reset();
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1200);
+            } catch (err) {
+                showToast(err.message, true);
+            } finally {
+                btn.innerHTML = orig;
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

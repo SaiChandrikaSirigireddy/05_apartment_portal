@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remove / Delete Apartment - Apartment Management (S. Sai Chandrika)</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="top-announcement">
+        <div class="container top-bar-content">
+            <span><i class="fa-solid fa-graduation-cap"></i> <strong>GPCET Web Tech Lab</strong> &bull; Developer: <strong>S. Sai Chandrika (25ATA05L40)</strong></span>
+            <span class="db-badge" id="dbStatusBadge"><i class="fa-solid fa-circle-notch fa-spin"></i> Checking DB...</span>
+        </div>
+    </div>
+
+    <header class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="brand-logo">
+                <div class="logo-icon"><i class="fa-solid fa-city"></i></div>
+                <div>
+                    <h1 class="logo-title">Apt<span>Sphere</span></h1>
+                    <p class="logo-sub">Apartment & Housing Management</p>
+                </div>
+            </a>
+
+            <nav class="nav-links">
+                <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+                <a href="add-apartment.html"><i class="fa-solid fa-building-circle-check"></i> Add Apartment</a>
+                <a href="update-apartment.html"><i class="fa-solid fa-pen-to-square"></i> Update</a>
+                <a href="search-apartment.html"><i class="fa-solid fa-magnifying-glass"></i> Search</a>
+                <a href="delete-apartment.html" class="active"><i class="fa-solid fa-trash-can"></i> Remove / Delete</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container main-content page-container">
+        <div class="form-card">
+            <div class="form-card-header">
+                <div>
+                    <h2><i class="fa-solid fa-trash-can" style="color:var(--danger)"></i> Remove / Delete Apartment</h2>
+                    <p>Permanently delete an apartment unit from MySQL Workbench table <code>apartments</code></p>
+                </div>
+                <div class="badge-roll">Roll No: 25ATA05L40</div>
+            </div>
+
+            <div class="form-body">
+                <div class="form-group">
+                    <label for="deleteAptIdInput"><i class="fa-solid fa-hashtag"></i> Enter Apartment ID to Remove</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="number" id="deleteAptIdInput" placeholder="e.g. 101" style="flex:1;">
+                        <button type="button" class="btn-primary" onclick="fetchAptForDelete()">
+                            <i class="fa-solid fa-magnifying-glass"></i> Find Apartment
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PREVIEW & CONFIRM SECTION -->
+                <div id="deleteAptPreview" class="preview-box" style="border-left: 4px solid var(--danger);">
+                    <div style="margin-bottom: 12px; color: var(--danger); font-weight: 700;">
+                        <i class="fa-solid fa-triangle-exclamation"></i> Warning: Confirm permanent deletion of this apartment!
+                    </div>
+
+                    <div style="background:#ffffff; border:1px solid var(--border); border-radius:8px; padding:16px; margin-bottom:16px;">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                            <span style="color:var(--muted); font-size:0.85rem;">Apartment ID:</span>
+                            <strong id="previewAptId" class="apt-id-cell">#--</strong>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                            <span style="color:var(--muted); font-size:0.85rem;">Flat No:</span>
+                            <strong id="previewFlatNo" style="color:var(--dark);">--</strong>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                            <span style="color:var(--muted); font-size:0.85rem;">Apartment Name:</span>
+                            <span id="previewAptName" style="color:var(--slate);">--</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                            <span style="color:var(--muted); font-size:0.85rem;">BHK Type:</span>
+                            <span id="previewBhk" class="bhk-tag">--</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                            <span style="color:var(--muted); font-size:0.85rem;">Monthly Rent:</span>
+                            <span id="previewRent" class="price-tag">₹0</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between;">
+                            <span style="color:var(--muted); font-size:0.85rem;">Location:</span>
+                            <small id="previewLocation" style="color:var(--muted);">--</small>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="document.getElementById('deleteAptPreview').classList.remove('show')">
+                            Cancel
+                        </button>
+                        <button type="button" class="btn-danger" id="confirmAptDeleteBtn" onclick="executeAptDelete()">
+                            <i class="fa-solid fa-trash-can"></i> Confirm & Delete from Database
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="toast" class="toast">
+        <i id="toastIcon" class="fa-solid fa-circle-check"></i>
+        <span id="toastMsg">Operation successful!</span>
+    </div>
+
+    <footer class="footer">
+        <div class="container footer-content">
+            <p><strong>Apartment Management Web Application</strong> &bull; Developer: <strong>S. Sai Chandrika</strong> (Roll No: <strong>25ATA05L40</strong>)</p>
+            <p class="footer-sub">Web Technology Lab &bull; Node.js, Express, MySQL Workbench</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        let targetAptId = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            if (id) {
+                document.getElementById('deleteAptIdInput').value = id;
+                fetchAptForDelete();
+            }
+        });
+
+        async function fetchAptForDelete() {
+            const id = document.getElementById('deleteAptIdInput').value.trim();
+            if (!id) {
+                showToast('Please enter an Apartment ID!', true);
+                return;
+            }
+
+            try {
+                const res = await fetch(`/api/apartments/${id}`);
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Apartment not found');
+
+                targetAptId = data.apartment_id;
+                document.getElementById('previewAptId').innerText = `#${data.apartment_id}`;
+                document.getElementById('previewFlatNo').innerText = data.flat_no;
+                document.getElementById('previewAptName').innerText = data.apartment_name;
+                document.getElementById('previewBhk').innerText = data.bhk_type;
+                document.getElementById('previewRent').innerText = formatRent(data.rent_price);
+                document.getElementById('previewLocation').innerText = data.location;
+
+                document.getElementById('deleteAptPreview').classList.add('show');
+            } catch (err) {
+                showToast(err.message, true);
+                document.getElementById('deleteAptPreview').classList.remove('show');
+            }
+        }
+
+        async function executeAptDelete() {
+            if (!targetAptId) return;
+
+            const btn = document.getElementById('confirmAptDeleteBtn');
+            const orig = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Deleting...';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch(`/api/apartments/${targetAptId}`, { method: 'DELETE' });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Delete failed');
+
+                showToast(`🗑️ Apartment #${targetAptId} permanently deleted!`);
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1200);
+            } catch (err) {
+                showToast(err.message, true);
+                btn.innerHTML = orig;
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

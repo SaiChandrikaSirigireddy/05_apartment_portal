@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apartment Management Portal - Web Tech Lab (GPCET)</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- TOP ANNOUNCEMENT BANNER -->
+    <div class="top-announcement">
+        <div class="container top-bar-content">
+            <span><i class="fa-solid fa-graduation-cap"></i> <strong>G. Pullaiah College of Engineering & Technology (GPCET)</strong> &bull; Topic: Apartment Management Portal</span>
+            <span class="db-badge" id="dbStatusBadge"><i class="fa-solid fa-circle-notch fa-spin"></i> Checking MySQL...</span>
+        </div>
+    </div>
+
+    <!-- MAIN NAVBAR -->
+    <header class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="brand-logo">
+                <div class="logo-icon"><i class="fa-solid fa-city"></i></div>
+                <div>
+                    <h1 class="logo-title">Apt<span>Sphere</span></h1>
+                    <p class="logo-sub">Apartment & Housing Management</p>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="nav-links">
+                <a href="index.html" class="active"><i class="fa-solid fa-house"></i> Home</a>
+                <a href="add-apartment.html"><i class="fa-solid fa-building-circle-check"></i> Add Apartment</a>
+                <a href="update-apartment.html"><i class="fa-solid fa-pen-to-square"></i> Update</a>
+                <a href="search-apartment.html"><i class="fa-solid fa-magnifying-glass"></i> Search</a>
+                <a href="delete-apartment.html"><i class="fa-solid fa-trash-can"></i> Remove / Delete</a>
+                <a href="add-apartment.html" class="btn-nav-primary"><i class="fa-solid fa-plus"></i> New Unit</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container main-content">
+
+        <!-- HERO SECTION & DEVELOPER PROFILE (S. SAI CHANDRIKA - 25ATA05L40) -->
+        <section class="hero-grid">
+            <!-- Left: Hero Overview -->
+            <div class="hero-text-card">
+                <span class="badge-tag"><i class="fa-solid fa-server"></i> MySQL Workbench + Node.js Express</span>
+                <h2>Apartment & Housing <span class="highlight-text">Management System</span></h2>
+                <p>
+                    Full-stack database portal for managing apartment units, block designations, BHK room categories, rental pricing, geographical locations, and occupancy status directly connected with MySQL Workbench table <code>apartments</code>.
+                </p>
+
+                <div class="quick-stats-row">
+                    <div class="stat-box">
+                        <span class="stat-number" id="totalAptsCount">0</span>
+                        <span class="stat-label">Total Units</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number" id="availAptsCount" style="color:var(--success);">0</span>
+                        <span class="stat-label">Available Flats</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number" id="occAptsCount" style="color:var(--secondary);">0</span>
+                        <span class="stat-label">Occupied</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number" id="avgRentBadge">₹0</span>
+                        <span class="stat-label">Average Rent</span>
+                    </div>
+                </div>
+
+                <div class="hero-actions">
+                    <a href="add-apartment.html" class="btn-primary"><i class="fa-solid fa-building-circle-check"></i> Register New Flat</a>
+                    <a href="search-apartment.html" class="btn-secondary"><i class="fa-solid fa-magnifying-glass"></i> Search Listings</a>
+                    <button class="btn-secondary" onclick="loadApartments()"><i class="fa-solid fa-arrows-rotate"></i> Refresh</button>
+                </div>
+            </div>
+
+            <!-- Right: Student Profile Card (S. Sai Chandrika) -->
+            <div class="student-card">
+                <div class="student-avatar-wrap">
+                    <img src="images/chandrika.svg" alt="S. Sai Chandrika" class="student-avatar" onerror="this.src='https://ui-avatars.com/api/?name=Sai+Chandrika&background=059669&color=fff&size=150'">
+                    <span class="active-badge" title="Developer Active"><i class="fa-solid fa-check"></i></span>
+                </div>
+                <h3 class="student-name">S. Sai Chandrika</h3>
+                <p class="student-role"><i class="fa-solid fa-id-card-clip"></i> Full Stack Developer</p>
+                <div class="student-details-list">
+                    <div class="detail-item">
+                        <span class="detail-label">Roll Number:</span>
+                        <span class="detail-val badge-roll">25ATA05L40</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Institution:</span>
+                        <span class="detail-val">GPCET</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Topic:</span>
+                        <span class="detail-val badge-topic">Apartment Portal</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Database:</span>
+                        <span class="detail-val">MySQL Workbench</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ACTION TILES -->
+        <section class="action-tiles-grid">
+            <a href="add-apartment.html" class="action-tile">
+                <div class="tile-icon tile-add"><i class="fa-solid fa-plus"></i></div>
+                <div class="tile-text">
+                    <h4>Add Apartment</h4>
+                    <p>Register new unit & rent</p>
+                </div>
+            </a>
+            <a href="update-apartment.html" class="action-tile">
+                <div class="tile-icon tile-update"><i class="fa-solid fa-pen-to-square"></i></div>
+                <div class="tile-text">
+                    <h4>Update Details</h4>
+                    <p>Edit rent, BHK or status</p>
+                </div>
+            </a>
+            <a href="search-apartment.html" class="action-tile">
+                <div class="tile-icon tile-search"><i class="fa-solid fa-magnifying-glass"></i></div>
+                <div class="tile-text">
+                    <h4>Search Units</h4>
+                    <p>Lookup by flat, ID, city</p>
+                </div>
+            </a>
+            <a href="delete-apartment.html" class="action-tile">
+                <div class="tile-icon tile-delete"><i class="fa-solid fa-trash-can"></i></div>
+                <div class="tile-text">
+                    <h4>Remove / Delete</h4>
+                    <p>Delete unit from table</p>
+                </div>
+            </a>
+        </section>
+
+        <!-- CONTROLS & FILTER PANEL -->
+        <section class="controls-panel">
+            <div class="controls-header">
+                <div>
+                    <h3 class="section-title"><i class="fa-solid fa-building-user"></i> Master Apartment Inventory</h3>
+                    <p class="section-subtitle">Synced with MySQL Workbench table <code>apartments</code></p>
+                </div>
+                <div class="view-toggle">
+                    <button id="tableViewBtn" class="toggle-btn active" onclick="setViewMode('table')"><i class="fa-solid fa-table"></i> Table</button>
+                    <button id="cardViewBtn" class="toggle-btn" onclick="setViewMode('cards')"><i class="fa-solid fa-grip"></i> Cards</button>
+                </div>
+            </div>
+
+            <div class="search-filter-bar">
+                <div class="search-input-wrap">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="searchInput" placeholder="Search by Flat No, Apartment Name, Location..." onkeyup="filterApartments()">
+                </div>
+                <div class="filter-select-wrap">
+                    <select id="locationFilter" onchange="filterApartments()">
+                        <option value="">All Locations</option>
+                    </select>
+                </div>
+                <div class="filter-select-wrap">
+                    <select id="bhkFilter" onchange="filterApartments()">
+                        <option value="">All BHK Types</option>
+                        <option value="1 BHK">1 BHK</option>
+                        <option value="2 BHK">2 BHK</option>
+                        <option value="3 BHK">3 BHK</option>
+                        <option value="4 BHK">4 BHK Penthouse</option>
+                    </select>
+                </div>
+                <div class="filter-select-wrap">
+                    <select id="statusFilter" onchange="filterApartments()">
+                        <option value="">All Statuses</option>
+                        <option value="Available">Available</option>
+                        <option value="Occupied">Occupied</option>
+                        <option value="Maintenance">Maintenance</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- TABLE VIEW -->
+        <section id="tableViewContainer" class="table-card">
+            <div class="table-responsive">
+                <table class="styled-table" id="apartmentsTable">
+                    <thead>
+                        <tr>
+                            <th><i class="fa-solid fa-hashtag"></i> Apartment ID</th>
+                            <th><i class="fa-solid fa-door-open"></i> Flat / Unit No</th>
+                            <th><i class="fa-solid fa-building"></i> Apartment Name</th>
+                            <th><i class="fa-solid fa-bed"></i> BHK Type</th>
+                            <th><i class="fa-solid fa-indian-rupee-sign"></i> Rent / Price</th>
+                            <th><i class="fa-solid fa-location-dot"></i> Location</th>
+                            <th><i class="fa-solid fa-circle-info"></i> Status</th>
+                            <th class="text-center"><i class="fa-solid fa-gear"></i> Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="apartmentsTableBody">
+                        <tr>
+                            <td colspan="8" class="loading-td">
+                                <i class="fa-solid fa-spinner fa-spin"></i> Loading apartments from MySQL database...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- CARD VIEW -->
+        <section id="cardViewContainer" class="hidden">
+            <div class="apts-card-grid" id="apartmentsCardsGrid">
+                <!-- Dynamically populated -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="toast">
+        <i id="toastIcon" class="fa-solid fa-circle-check"></i>
+        <span id="toastMsg">Operation successful!</span>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <p><strong>Apartment Management Web Application</strong> &bull; Developer: <strong>S. Sai Chandrika</strong> (Roll No: <strong>25ATA05L40</strong>)</p>
+            <p class="footer-sub">Web Technology Lab &bull; Node.js, Express, MySQL Workbench, HTML5 & CSS3</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
